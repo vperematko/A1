@@ -33,8 +33,7 @@ It also contains the Map class, which is responsible for converting between
 long/lat coordinates and pixel coordinates on the pygame window.
 
 DO NOT CHANGE ANY CODE IN THIS FILE, unless instructed in the handout.
-""
-##testing 
+"""
 
 # ----------------------------------------------------------------------------
 # NOTE: You do not need to understand any of the visualization details from

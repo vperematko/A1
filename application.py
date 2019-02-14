@@ -10,7 +10,6 @@ any changes, are expressly prohibited.
 
 All of the files in this directory and all subdirectories are:
 Copyright (c) 2019 Bogdan Simion, Diane Horton, Jacqueline Smith
-#hey Sarah
 """
 import datetime
 import json
@@ -18,6 +17,7 @@ from typing import List, Dict
 from visualizer import Visualizer
 from customer import Customer
 from phoneline import PhoneLine
+from contract import *
 
 
 def import_data() -> Dict[str, List[Dict]]:
@@ -53,7 +53,6 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
             # 3) Remove this TODO list when you're done.
 
             # Sarah's ver.
-            """
             if line['contract'] == 'prepaid':
                 # start with $100 credit on the account
                 contract = PrepaidContract(datetime.date(2017, 12, 25), 100)
@@ -64,7 +63,6 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
                                         datetime.date(2019, 6, 25))
             else:
                 print("ERROR: unknown contract type")
-            """
             # Vic's ver.
             """
             if line['contract'] == 'prepaid':
