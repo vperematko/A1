@@ -10,6 +10,7 @@ any changes, are expressly prohibited.
 
 All of the files in this directory and all subdirectories are:
 Copyright (c) 2019 Bogdan Simion, Diane Horton, Jacqueline Smith
+halo
 """
 import datetime
 import json
@@ -115,14 +116,14 @@ def process_event_history(log: Dict[str, List[Dict]],
     billing_date = datetime.datetime.strptime(log['events'][0]['time'],
                                               "%Y-%m-%d %H:%M:%S")
     billing_month = billing_date.month
-    
+
     # start recording the bills from this date
     # Note: uncomment the following lines when you're ready to implement this
-    # 
+    #
     # new_month(customer_list, billing_date.month, billing_date.year)
     #
     # for event_data in log['events']:
-    
+
     # ...
 
 
