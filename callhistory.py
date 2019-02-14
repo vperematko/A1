@@ -39,12 +39,16 @@ class CallHistory:
         """ Register a Call <call> into this outgoing call history
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        # Vic's ver.
         pass
 
     def register_incoming_call(self, call: Call) -> None:
         """ Register a Call <call> into this incoming call history
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        # Vic's ver.
         pass
 
     # ----------------------------------------------------------

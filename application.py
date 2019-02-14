@@ -52,7 +52,7 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
             # 2) Make sure to import the necessary contract classes in this file
             # 3) Remove this TODO list when you're done.
 
-            # Sarah's version
+            # Sarah's ver.
             """
             if line['contract'] == 'prepaid':
                 # start with $100 credit on the account
@@ -65,7 +65,7 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
             else:
                 print("ERROR: unknown contract type")
             """
-            # Vic's version
+            # Vic's ver.
             """
             if line['contract'] == 'prepaid':
                 # start with $100 credit on the account
@@ -135,14 +135,14 @@ def process_event_history(log: Dict[str, List[Dict]],
     # start recording the bills from this date
     # Note: uncomment the following lines when you're ready to implement this
     #
-    # Vic's version
+    # Vic's ver.
     # new_month(customer_list, billing_date.month, billing_date.year)
     #
     # for event_data in log['events']:
 
     # ...
 
-    # Sarah's version
+    # Sarah's ver.
     # new_month(customer_list, billing_date.month, billing_date.year)
     #
     # for event_data in log['events']:

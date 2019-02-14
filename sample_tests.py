@@ -2,6 +2,17 @@
 CSC148, Winter 2019
 Assignment 1
 
+This is a revised version of the sample test module that includes
+two corrections: 
+(1) Expected bill totals are now correctly based on
+the proper use of minutes and seconds, as described on Piazza:
+https://piazza.com/class/jpuk89lzot57ez?cid=536
+(2) The correct end date for term contracts is used, June 25, 2019,
+as stated on Piazza: https://piazza.com/class/jpuk89lzot57ez?cid=535
+
+It also uses a better name for one of the test methods and adds an
+additional test method.
+
 This code is provided solely for the personal and private use of
 students taking the CSC148 course at the University of Toronto.
 Copying for purposes other than this use is expressly prohibited.
@@ -32,14 +43,14 @@ autotests ***
 """
 
 
-def create_customer() -> Customer:
+def create_single_customer_with_all_lines() -> Customer:
     """ Create a customer with one of each type of PhoneLine
     """
     contracts = [
-        TermContract(start=datetime.date(year=2017, month=12, day=1),
-                     end=datetime.date(year=2018, month=12, day=30)),
-        MTMContract(start=datetime.date(year=2017, month=12, day=1)),
-        PrepaidContract(start=datetime.date(year=2017, month=12, day=1),
+        TermContract(start=datetime.date(year=2017, month=12, day=25),
+                     end=datetime.date(year=2019, month=6, day=25)),
+        MTMContract(start=datetime.date(year=2017, month=12, day=25)),
+        PrepaidContract(start=datetime.date(year=2017, month=12, day=25),
                         balance=100)
     ]
     numbers = ['867-5309', '273-8255', '649-2568']
@@ -111,7 +122,7 @@ def test_customer_creation() -> None:
     """ Test for the correct creation of Customer, PhoneLine, and Contract
     classes
     """
-    customer = create_customer()
+    customer = create_single_customer_with_all_lines()
     bill = customer.generate_bill(12, 2017)
 
     assert len(customer.get_phone_numbers()) == 3
@@ -150,13 +161,13 @@ def test_events() -> None:
     # Check the bill has been computed correctly
     bill = customers[0].generate_bill(1, 2018)
     assert bill[0] == 5555
-    assert bill[1] == pytest.approx(-28.25)
+    assert bill[1] == pytest.approx(-29.925)
     assert bill[2][0]['total'] == pytest.approx(20)
-    assert bill[2][0]['free_mins'] == 50
-    assert bill[2][1]['total'] == pytest.approx(50.5)
-    assert bill[2][1]['billed_mins'] == 10
-    assert bill[2][2]['total'] == pytest.approx(-98.75)
-    assert bill[2][2]['billed_mins'] == 50
+    assert bill[2][0]['free_mins'] == 1
+    assert bill[2][1]['total'] == pytest.approx(50.05)
+    assert bill[2][1]['billed_mins'] == 1
+    assert bill[2][2]['total'] == pytest.approx(-99.975)
+    assert bill[2][2]['billed_mins'] == 1
 
     # Check the CallHistory objects are populated
     history = customers[0].get_call_history('867-5309')
@@ -168,6 +179,23 @@ def test_events() -> None:
     assert len(history) == 3
     assert len(history[0].incoming_calls) == 1
     assert len(history[0].outgoing_calls) == 1
+
+
+def test_contract_start_dates() -> None:
+    """ Test the start dates of the contracts.
+
+    Ensure that the start dates are the correct dates as specified in the given
+    starter code.
+    """
+    customers = create_customers(test_dict)
+    for c in customers:
+        for pl in c._phone_lines:
+            assert pl.contract.start == \
+                   datetime.date(year=2017, month=12, day=25)
+            if hasattr(pl.contract, 'end'):
+                # only check if there is an end date (TermContract)
+                assert pl.contract.end == \
+                       datetime.date(year=2019, month=6, day=25)
 
 
 def test_filters() -> None:

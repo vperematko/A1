@@ -103,6 +103,9 @@ class CustomerFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        return data
+        # Vic's ver.
         return data
 
     def __str__(self) -> str:
@@ -133,6 +136,9 @@ class DurationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        return data
+        # Vic's ver.
         return data
 
     def __str__(self) -> str:
@@ -171,6 +177,9 @@ class LocationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        return data
+        # Vic's ver.
         return data
 
     def __str__(self) -> str:

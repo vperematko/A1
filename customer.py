@@ -52,6 +52,8 @@ class Customer:
         <call>, is owned by this customer
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        # Vic's ver.
         pass
 
     def receive_call(self, call: Call) -> None:
@@ -62,6 +64,8 @@ class Customer:
         number of <call>, is owned by this customer
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        # Vic's ver.
         pass
 
     def cancel_phone_line(self, number: str) -> Union[float, None]:

@@ -67,6 +67,8 @@ class PhoneLine:
         month must be <started> by advancing to the right month from <call>.
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        # Vic's ver.
         pass
 
     def receive_call(self, call: Call) -> None:
@@ -77,6 +79,8 @@ class PhoneLine:
         <call>.
         """
         # TODO: Implement this method
+        # Sarah's ver.
+        # Vic's ver.
         pass
 
     def cancel_line(self) -> float:

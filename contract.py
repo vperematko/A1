@@ -88,7 +88,8 @@ class Contract:
 
 
 # TODO: Implement the MTMContract, TermContract, and PrepaidContract
-
+# Sarah's ver.
+# Vic's ver.
 
 if __name__ == '__main__':
     import python_ta
