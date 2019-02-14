@@ -27,12 +27,11 @@ def import_data() -> Dict[str, List[Dict]]:
 
     Precondition: the dataset file must be in the json format.
     """
-    # sarah's version
     log = {}
     with open("dataset.json") as o:
         log = json.load(o)
     return log
-    # Vic's version
+
 
 def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
     """ Returns a list of Customer instances for each customer from the input
@@ -52,6 +51,21 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
             #    all types of contracts.
             # 2) Make sure to import the necessary contract classes in this file
             # 3) Remove this TODO list when you're done.
+
+            # Sarah's version
+            """
+            if line['contract'] == 'prepaid':
+                # start with $100 credit on the account
+                contract = PrepaidContract(datetime.date(2017, 12, 25), 100)
+            elif line['contract'] == 'mtm':
+                contract = MTMContract(datetime.date(2017, 12, 25))
+            elif line['contract'] == 'term':
+                contract = TermContract(datetime.date(2017, 12, 25),
+                                        datetime.date(2019, 6, 25))
+            else:
+                print("ERROR: unknown contract type")
+            """
+            # Vic's version
             """
             if line['contract'] == 'prepaid':
                 # start with $100 credit on the account
@@ -121,6 +135,14 @@ def process_event_history(log: Dict[str, List[Dict]],
     # start recording the bills from this date
     # Note: uncomment the following lines when you're ready to implement this
     #
+    # Vic's version
+    # new_month(customer_list, billing_date.month, billing_date.year)
+    #
+    # for event_data in log['events']:
+
+    # ...
+
+    # Sarah's version
     # new_month(customer_list, billing_date.month, billing_date.year)
     #
     # for event_data in log['events']:
