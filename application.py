@@ -27,11 +27,12 @@ def import_data() -> Dict[str, List[Dict]]:
 
     Precondition: the dataset file must be in the json format.
     """
+    # sarah's version
     log = {}
     with open("dataset.json") as o:
         log = json.load(o)
     return log
-
+    # Vic's version
 
 def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
     """ Returns a list of Customer instances for each customer from the input
