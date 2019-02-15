@@ -53,6 +53,7 @@ class Customer:
         """
         # TODO: Implement this method
         # Sarah's ver.
+
         # Vic's ver.
         pass
 

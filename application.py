@@ -127,11 +127,30 @@ def process_event_history(log: Dict[str, List[Dict]],
     # ...
 
     # Sarah's ver.
-    # new_month(customer_list, billing_date.month, billing_date.year)
-    #
-    # for event_data in log['events']:
+    billing_year = billing_date.year
+    new_month(customer_list, billing_date.month, billing_date.year)
 
-    # ...
+    for event_data in log['events']:
+        check_date = datetime.datetime.strptime(event_data['time'],
+                                                "%Y-%m-%d %H:%M:%S")
+        if (check_date.month > billing_month and
+            check_date.year >= billing_year) or \
+                (check_date.month < billing_month and
+                 check_date.year > billing_year):
+            billing_month = check_date.month
+            billing_year = check_date.year
+            new_month(customer_list, billing_month, billing_year)
+
+        if event_data['type'] is 'call':
+            new_call = Call(event_data['src_number'], event_data['dst_number'],
+                            check_date, event_data['duration'],
+                            tuple(event_data['src_loc']),
+                            tuple(event_data['dst_loc']))
+            for cust in customer_list:
+                if event_data['src_number'] in cust.get_phone_numbers():
+                    cust.register_outgoing_call(new_call)
+                if event_data['dst_number'] in cust.get_phone_numbers():
+                    cust.register_incoming_call(new_call)
 
 
 if __name__ == '__main__':

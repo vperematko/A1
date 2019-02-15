@@ -47,7 +47,7 @@ class Contract:
          bill for this contract for the last month of call records loaded from
          the input dataset
     """
-    start: datetime.datetime
+    start: datetime.date
     bill: Optional[Bill]
 
     def __init__(self, start: datetime.date) -> None:
@@ -101,9 +101,9 @@ class TermContract(Contract):
         ending date for the contract
 
     """
-    start: datetime.datetime
+    start: datetime.date
     bill: Optional[Bill]
-    end: datetime.datetime
+    end: datetime.date
 
     def __init__(self, start: datetime.date, end: datetime.date) -> None:
         """ Create a new TermContract with the <start> date, and <end> date,
@@ -139,7 +139,7 @@ class MTMContract(Contract):
     === Attributes ===
 
     """
-    start: datetime.datetime
+    start: datetime.date
     bill: Optional[Bill]
 
     def new_month(self, month: int, year: int, bill: Bill) -> None:
@@ -157,7 +157,7 @@ class PrepaidContract(Contract):
     balance:
         the amount of money the customer owes.
     """
-    start: datetime.datetime
+    start: datetime.date
     bill: Optional[Bill]
     balance: float
 
@@ -174,11 +174,11 @@ class PrepaidContract(Contract):
         Store the <bill> argument in this contract and set the appropriate rate
         per minute and fixed cost.
         """
-
-
-
         pass
+
+
 # Vic's ver.
+
 
 if __name__ == '__main__':
     import python_ta
