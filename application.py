@@ -52,7 +52,6 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
             # 2) Make sure to import the necessary contract classes in this file
             # 3) Remove this TODO list when you're done.
 
-            # Sarah's ver.
             if line['contract'] == 'prepaid':
                 # start with $100 credit on the account
                 contract = PrepaidContract(datetime.date(2017, 12, 25), 100)
@@ -63,19 +62,6 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
                                         datetime.date(2019, 6, 25))
             else:
                 print("ERROR: unknown contract type")
-            # Vic's ver.
-            """
-            if line['contract'] == 'prepaid':
-                # start with $100 credit on the account
-                contract = PrepaidContract(datetime.date(2017, 12, 25), 100)
-            elif line['contract'] == 'mtm':
-                contract = MTMContract(datetime.date(2017, 12, 25))
-            elif line['contract'] == 'term':
-                contract = TermContract(datetime.date(2017, 12, 25),
-                                        datetime.date(2019, 6, 25))
-            else:
-                print("ERROR: unknown contract type")
-            """
 
             line = PhoneLine(line['number'], contract)
             customer.add_phone_line(line)
