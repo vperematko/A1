@@ -68,7 +68,6 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
         customer_list.append(customer)
     return customer_list
 
-
 def find_customer_by_number(number: str, customer_list: List[Customer]) \
         -> Customer:
     """ Return the Customer with the phone number <number> in the list of
@@ -114,17 +113,22 @@ def process_event_history(log: Dict[str, List[Dict]],
     # TODO: Implement this method. We are giving you the first few lines of code
     billing_date = datetime.datetime.strptime(log['events'][0]['time'],
                                               "%Y-%m-%d %H:%M:%S")
-    billing_month = billing_date.month
-
+    #Vic's Ver
+    for event_data in log['events']:
+        if event_data["type"] != "sms":
+            billing_date = datetime.datetime.strptime(log['events'][0]['time'],
+                                                      "%Y-%m-%d %H:%M:%S")
     # start recording the bills from this date
-    # Note: uncomment the following lines when you're ready to implement this
-    #
-    # Vic's ver.
-    # new_month(customer_list, billing_date.month, billing_date.year)
-    #
-    # for event_data in log['events']:
+    billing_month = billing_date.month
+    src_number = log['events']
+    src_number = log['events']
+    dst_number = log['events']
+    time = log['events']
+    duration = log['events']
+    src_loc = log['events']
+    dst_loc = log['events']
+    new_month(customer_list, billing_date.month, billing_date.year)
 
-    # ...
 
     # Sarah's ver.
     billing_year = billing_date.year
