@@ -17,7 +17,8 @@ from typing import List, Dict
 from visualizer import Visualizer
 from customer import Customer
 from phoneline import PhoneLine
-from contract import *
+from contract import TermContract, MTMContract, PrepaidContract
+from call import Call
 
 
 def import_data() -> Dict[str, List[Dict]]:
@@ -114,13 +115,14 @@ def process_event_history(log: Dict[str, List[Dict]],
     # TODO: Implement this method. We are giving you the first few lines of code
     billing_date = datetime.datetime.strptime(log['events'][0]['time'],
                                               "%Y-%m-%d %H:%M:%S")
-    #Vic's Ver
-    for event_data in log['events']:
+    billing_month = billing_date.month
+    # Vic's Ver
+    '''for event_data in log['events']:
         if event_data["type"] != "sms":
             billing_date = datetime.datetime.strptime(log['events'][0]['time'],
                                                       "%Y-%m-%d %H:%M:%S")
     # start recording the bills from this date
-    billing_month = billing_date.month
+    
     src_number = log['events']
     src_number = log['events']
     dst_number = log['events']
@@ -129,8 +131,7 @@ def process_event_history(log: Dict[str, List[Dict]],
     src_loc = log['events']
     dst_loc = log['events']
     new_month(customer_list, billing_date.month, billing_date.year)
-
-
+'''
     # Sarah's ver.
     billing_year = billing_date.year
     new_month(customer_list, billing_date.month, billing_date.year)
