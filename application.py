@@ -68,6 +68,7 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
         customer_list.append(customer)
     return customer_list
 
+
 def find_customer_by_number(number: str, customer_list: List[Customer]) \
         -> Customer:
     """ Return the Customer with the phone number <number> in the list of

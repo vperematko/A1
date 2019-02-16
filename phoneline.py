@@ -75,7 +75,6 @@ class PhoneLine:
         else:
             self.new_month(call.time.month, call.time.year)
             self.contract.bill_call(call)
-        # Vic's ver.
 
     def receive_call(self, call: Call) -> None:
         """ Add the <call> to this phone line's callhistory.
@@ -90,7 +89,6 @@ class PhoneLine:
         call_time = call.get_bill_date()
         if call_time not in self.bills:
             self.new_month(call.time.month, call.time.year)
-        # Vic's ver.
 
     def cancel_line(self) -> float:
         """ Cancel this line's contract and return the outstanding bill amount
