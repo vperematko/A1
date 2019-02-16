@@ -68,8 +68,14 @@ class PhoneLine:
         """
         # TODO: Implement this method
         # Sarah's ver.
+        self.callhistory.register_outgoing_call(call)
+        call_time = call.get_bill_date()
+        if call_time in self.bills:
+            self.contract.bill_call(call)
+        else:
+            self.new_month(call.time.month, call.time.year)
+            self.contract.bill_call(call)
         # Vic's ver.
-        pass
 
     def receive_call(self, call: Call) -> None:
         """ Add the <call> to this phone line's callhistory.
@@ -80,8 +86,11 @@ class PhoneLine:
         """
         # TODO: Implement this method
         # Sarah's ver.
+        self.callhistory.register_incoming_call(call)
+        call_time = call.get_bill_date()
+        if call_time not in self.bills:
+            self.new_month(call.time.month, call.time.year)
         # Vic's ver.
-        pass
 
     def cancel_line(self) -> float:
         """ Cancel this line's contract and return the outstanding bill amount

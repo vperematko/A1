@@ -40,7 +40,7 @@ class CallHistory:
         """
         # TODO: Implement this method
         # Sarah's ver.
-        call_time = (call.time.month, call.time.year)
+        call_time = call.get_bill_date()
         if call_time in self.outgoing_calls:
             self.outgoing_calls[call_time].append(call)
         else:
@@ -52,7 +52,7 @@ class CallHistory:
         """
         # TODO: Implement this method
         # Sarah's ver.
-        call_time = (call.time.month, call.time.year)
+        call_time = call.get_bill_date()
         if call_time in self.incoming_calls:
             self.incoming_calls[call_time].append(call)
         else:

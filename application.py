@@ -146,12 +146,12 @@ def process_event_history(log: Dict[str, List[Dict]],
                             check_date, event_data['duration'],
                             tuple(event_data['src_loc']),
                             tuple(event_data['dst_loc']))
-            source = find_customer_by_number(
-                event_data['src_number'], customer_list)
-            destination = find_customer_by_number(
-                event_data['dst_number'], customer_list)
-            source.register_outgoing_call(new_call)
-            destination.register_incoming_call(new_call)
+            src_cust = find_customer_by_number(event_data['src_number'],
+                                               customer_list)
+            dst_cust = find_customer_by_number(event_data['dst_number'],
+                                               customer_list)
+            src_cust.make_call(new_call)
+            dst_cust.receive_call(new_call)
 
 
 if __name__ == '__main__':
