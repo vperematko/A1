@@ -218,10 +218,10 @@ class LocationFilter(Filter):
                     upper_long = new_coordinate_list[2]
                     upper_lat = new_coordinate_list[3]
                     for call in data:
-                        if not (lower_long <= call.src_loc[0] <= upper_long) and
+                        if not ((lower_long <= call.src_loc[0] <= upper_long) and
                             (lower_lat <= call.src_loc[1] <= upper_lat) or
                             (lower_long <= call.dst_loc[0] <= upper_long) and
-                            (lower_lat <= call.dst_loc[1] <= upper_lat):
+                                (lower_lat <= call.dst_loc[1] <= upper_lat)):
                                 status = False
                         if status:
                             result.append(call)
