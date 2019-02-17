@@ -126,7 +126,7 @@ class TermContract(Contract):
         if not ((self.end.month < month and self.end.year <= year) or
                 self.end.year < year):
             # refresh included minutes and SMSs
-            self.bill.add_free_minutes(TERM_MINS - self.bill.free_min)
+            self.bill.add_free_minutes((-1) * self.bill.free_min)
             if self.start.month == month and self.start.year == year:
                 # if first month, add term deposit to bill.
                 self.bill.add_fixed_cost(TERM_DEPOSIT)
@@ -136,11 +136,13 @@ class TermContract(Contract):
     def bill_call(self, call: Call) -> None:
         """ Add the <call> to the bill."""
         duration = ceil(call.duration / 60.0)
-        if self.bill.free_min >= duration:
-            self.bill.add_free_minutes(-1 * duration)
+        if (self.bill.free_min + duration) <= TERM_MINS:
+            self.bill.add_free_minutes(duration)
         else:
-            self.bill.add_billed_minutes(duration - self.bill.free_min)
-            self.bill.add_free_minutes(-1 * self.bill.free_min)
+            self.bill.add_free_minutes(
+                TERM_MINS - self.bill.free_min)
+            self.bill.add_billed_minutes(
+                self.bill.free_min + duration - TERM_MINS)
 
     def cancel_contract(self) -> float:
         """ Return the amount owed in order to close the phone line associated
