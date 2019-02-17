@@ -105,14 +105,16 @@ class CustomerFilter(Filter):
         # TODO: Implement this method
         # Vic's ver.
 
-        data = []
+        result = []
         for customer in customers:
             if customer.get_id() == int(filter_string):
                 for call in data:
                     for line in customer.get_phone_numbers():
                         if (call.dst_number or call.src_number) == line:
-                            data.append(call)
-        return data
+                            result.append(call)
+        if result is []:
+            return data
+        return result
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
@@ -142,8 +144,6 @@ class DurationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        # Sarah's ver.
-        return data
         # Vic's ver.
         return data
 
