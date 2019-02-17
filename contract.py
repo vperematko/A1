@@ -149,7 +149,9 @@ class TermContract(Contract):
         with this contract."""
         if self.start is None:
             return self.bill.get_cost() - TERM_DEPOSIT
-        return self.bill.get_cost()
+        else:
+            return self.bill.get_cost()
+            self.start = None
 
 
 class MTMContract(Contract):
