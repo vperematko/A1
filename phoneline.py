@@ -70,11 +70,9 @@ class PhoneLine:
         # Sarah's ver.
         self.callhistory.register_outgoing_call(call)
         call_time = call.get_bill_date()
-        if call_time in self.bills:
-            self.contract.bill_call(call)
-        else:
+        if call_time not in self.bills:
             self.new_month(call.time.month, call.time.year)
-            self.contract.bill_call(call)
+        self.contract.bill_call(call)
 
     def receive_call(self, call: Call) -> None:
         """ Add the <call> to this phone line's callhistory.
