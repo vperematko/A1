@@ -142,6 +142,7 @@ class DurationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
+        # Vic's ver.
         result = []
         for call in data:
             status = False
@@ -195,8 +196,17 @@ class LocationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        # Vic's ver.
-        return data
+        result = []
+        coordinate_list = filter_string.split(', ')
+        if len(coordinate_list) == 4: # need more conditions
+                                    #how do i check each item for validity
+                                    #without another for loop
+            for call in data:
+                if call.src_loc[0] <=
+
+        if result is []:
+            return data
+        return result
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
