@@ -199,11 +199,13 @@ class LocationFilter(Filter):
         result = []
         coordinate_list = filter_string.split(', ')
         if len(coordinate_list) == 4: #need more conditions probably
-            for call in data:
-                if call.src_loc[0] <=
-
-        if result is []:
-            return data
+            for coordinate in filter_string:
+                # check if coordinates are within map
+                #if not return data
+        for call in data:
+            #check if outgoing calls are within coordinates
+            #check in incoming calls are within coordinates
+            #append Call to results if it is
         return result
 
     def __str__(self) -> str:
