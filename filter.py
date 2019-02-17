@@ -70,12 +70,12 @@ class ResetFilter(Filter):
         Precondition:
         - <customers> contains the list of all customers from the input dataset
         """
-        unfiltered_calls = []
+        filtered_calls = []
         for c in customers:
             customer_history = c.get_history()
             # only take outgoing calls, we don't want to include calls twice
-            unfiltered_calls.extend(customer_history[0])
-        return unfiltered_calls
+            filtered_calls.extend(customer_history[0])
+        return filtered_calls
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
@@ -103,17 +103,22 @@ class CustomerFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        result = []
-        for customer in customers:
-            if customer.get_id() == int(filter_string):
-                cust_history = customer.get_history()
-                all_calls = []
-                for direction in cust_history:
-                    all_calls.extend(direction)
-                result.extend(all_calls)
-        if result is []:
+        try:
+            result = []
+            for customer in customers:
+                if customer.get_id() == int(filter_string):
+                    cust_history = customer.get_history()
+                    all_calls = []
+                    for direction in cust_history:
+                        all_calls.extend(direction)
+                    result.extend(all_calls)
+            if result is []:
+                return data
+            return result
+        except ValueError:
             return data
-        return result
+        except IndexError:
+            return data
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
@@ -146,9 +151,9 @@ class DurationFilter(Filter):
         # Vic's ver.
         result = []
         for call in data:
-            status = False #keeps track of weather the input is valid or not
+            status = False # keeps track of weather the input is valid or not
             if (filter_string[0] == 'L' or filter_string[0] == 'G') \
-                    and (len(filter_string) == 4 ): #basic format check
+                    and (len(filter_string) == 4 ): # basic format check
                     # essentially checking for all psbl. things that could break
                         status = True
                         for char in filter_string[1:3]:
