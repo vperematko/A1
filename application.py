@@ -112,9 +112,9 @@ def process_event_history(log: Dict[str, List[Dict]],
     - The <customer_list> already contains all the customers from the <log>.
     """
     # TODO: Implement this method. We are giving you the first few lines of code
-
-
-    # Sarah's ver.
+    billing_date = datetime.datetime.strptime(log['events'][0]['time'],
+                                              "%Y-%m-%d %H:%M:%S")
+    billing_month = billing_date.month
     billing_year = billing_date.year
     new_month(customer_list, billing_date.month, billing_date.year)
 

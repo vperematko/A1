@@ -105,14 +105,16 @@ class CustomerFilter(Filter):
         # TODO: Implement this method
         # Vic's ver.
 
-        data = []
-        for Customer in customers:
-            if Customer._id == filter_string:
-                for Call in data:
-                    for line in Customer._phone_lines:
-                        if (Call.dst_number or Call.src_number) == line:
-                            data.append(Call)
-        return data
+        result = []
+        for customer in customers:
+            if customer.get_id() == int(filter_string):
+                for call in data:
+                    for line in customer.get_phone_numbers():
+                        if (call.dst_number or call.src_number) == line:
+                            result.append(call)
+        if result is []:
+            return data
+        return result
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
