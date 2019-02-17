@@ -106,12 +106,12 @@ class CustomerFilter(Filter):
         # Vic's ver.
 
         data = []
-        for Customer in customers:
-            if Customer._id == filter_string:
-                for Call in data:
-                    for line in Customer._phone_lines:
-                        if (Call.dst_number or Call.src_number) == line:
-                            data.append(Call)
+        for customer in customers:
+            if customer.get_id() == int(filter_string):
+                for call in data:
+                    for line in customer.get_phone_numbers():
+                        if (call.dst_number or call.src_number) == line:
+                            data.append(call)
         return data
 
     def __str__(self) -> str:
