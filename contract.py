@@ -48,7 +48,7 @@ class Contract:
          bill for this contract for the last month of call records loaded from
          the input dataset
     """
-    start: datetime.datetime
+    start: datetime.date
     bill: Optional[Bill]
 
     def __init__(self, start: datetime.date) -> None:
@@ -89,22 +89,21 @@ class Contract:
 
 
 # TODO: Implement the MTMContract, TermContract, and PrepaidContract
-# Sarah's ver.
+
 class TermContract(Contract):
     """A term contract is a type of Contract with a specific start date
      and end date, and which requires a commitment until the end date.
-
     A term contract comes with an initial large term deposit added to the bill
     of the first month of the contract.
+    We assume that the start and end dates are at least in separate months.
 
     === Attributes ===
     end:
         ending date for the contract
-
     """
     start: datetime.date
-    bill: Optional[Bill]
     end: datetime.date
+    bill: Optional[Bill]
 
     def __init__(self, start: datetime.date, end: datetime.date) -> None:
         """ Create a new TermContract with the <start> date, and <end> date,
@@ -112,7 +111,6 @@ class TermContract(Contract):
         """
         Contract.__init__(self, start)
         self.end = end
-        self.bill.set_rates("TERM", TERM_MINS_COST)
 
     def new_month(self, month: int, year: int, bill: Bill) -> None:
         """ Advance to a new month in the contract, corresponding to <month> and
@@ -122,26 +120,45 @@ class TermContract(Contract):
         month starts. Free minutes are used up first, so the customer only gets
         billed for minutes of voice time once the freebies have been used up.
         """
-        # if first month, add term deposit to bill.
-        if self.start.month == month and self.start.year == year:
-            self.bill.add_fixed_cost(TERM_DEPOSIT)
-            self.bill.add_free_minutes(TERM_MINS)
-        elif self.end.month <= month and self.end.year <= year:
+        self.bill = bill
+        self.bill.set_rates("TERM", TERM_MINS_COST)
+        if not ((self.end.month < month and self.end.year <= year) or
+                self.end.year < year):
+            self.bill.add_fixed_cost(TERM_MONTHLY_FEE)
+            # refresh included minutes and SMSs
             self.bill.add_free_minutes(TERM_MINS - self.bill.free_min)
-        #refresh included minutes and SMSs
+            if self.start.month == month and self.start.year == year:
+                # if first month, add term deposit to bill.
+                self.bill.add_fixed_cost(TERM_DEPOSIT)
 
-        pass
+    def bill_call(self, call: Call) -> None:
+        """ Add the <call> to the bill."""
+        duration = ceil(call.duration / 60.0)
+        if self.bill.free_min >= duration:
+            self.bill.add_free_minutes(-1 * duration)
+        else:
+            self.bill.add_billed_minutes(duration - self.bill.free_min)
+            self.bill.add_free_minutes(-1 * self.bill.free_min)
 
+    def cancel_contract(self) -> float:
+        """ Return the amount owed in order to close the phone line associated
+        with this contract."""
+        self.start = None
+        return self.bill.get_cost()
 
 
 class MTMContract(Contract):
-    """
-
-    === Attributes ===
-
+    """The month-to-month contract is a Contract with no end date and
+     no initial term deposit. This type of contract has higher rates
+     for calls than a term contract, and comes with no free minutes included,
+     but also involves no term commitment.
     """
     start: datetime.date
     bill: Optional[Bill]
+
+    def __init__(self, start: datetime.date) -> None:
+        """ """
+        Contract.__init__(self, start)
 
     def new_month(self, month: int, year: int, bill: Bill) -> None:
         """ Advance to a new month in the contract, corresponding to <month> and
@@ -149,7 +166,9 @@ class MTMContract(Contract):
         Store the <bill> argument in this contract and set the appropriate rate
         per minute and fixed cost.
         """
-        pass
+        self.bill = bill
+        self.bill.set_rates("MTM", MTM_MINS_COST)
+        self.bill.add_fixed_cost(MTM_MONTHLY_FEE)
 
 
 class PrepaidContract(Contract):
@@ -167,7 +186,7 @@ class PrepaidContract(Contract):
                 and an initial term deposit and monthly fee.
         """
         Contract.__init__(self, start)
-        self.balance = credit * (-1)
+        self.balance = credit
 
     def new_month(self, month: int, year: int, bill: Bill) -> None:
         """ Advance to a new month in the contract, corresponding to <month> and
@@ -175,9 +194,16 @@ class PrepaidContract(Contract):
         Store the <bill> argument in this contract and set the appropriate rate
         per minute and fixed cost.
         """
-        pass
+        self.bill = bill
+        self.bill.set_rates("PREPAID", PREPAID_MINS_COST)
+        if self.balance > (-10):
+            self.balance += (-15)
 
-
+    def cancel_contract(self) -> float:
+        """ Return the amount owed in order to close the phone line associated
+        with this contract."""
+        self.start = None
+        return self.bill.get_cost()
 # Vic's ver.
 
 
