@@ -104,6 +104,7 @@ class TermContract(Contract):
     start: datetime.date
     end: datetime.date
     bill: Optional[Bill]
+    _finished_term: bool
 
     def __init__(self, start: datetime.date, end: datetime.date) -> None:
         """ Create a new TermContract with the <start> date, and <end> date,
@@ -111,6 +112,7 @@ class TermContract(Contract):
         """
         Contract.__init__(self, start)
         self.end = end
+        self._carried_term = False
 
     def new_month(self, month: int, year: int, bill: Bill) -> None:
         """ Advance to a new month in the contract, corresponding to <month> and
@@ -131,7 +133,7 @@ class TermContract(Contract):
                 # if first month, add term deposit to bill.
                 self.bill.add_fixed_cost(TERM_DEPOSIT)
         else:
-            self.start = None
+            self._carried_term = True
 
     def bill_call(self, call: Call) -> None:
         """ Add the <call> to the bill."""
@@ -147,11 +149,11 @@ class TermContract(Contract):
     def cancel_contract(self) -> float:
         """ Return the amount owed in order to close the phone line associated
         with this contract."""
-        if self.start is None:
+        self.start = None
+        if self._carried_term is True:
             return self.bill.get_cost() - TERM_DEPOSIT
         else:
             return self.bill.get_cost()
-            self.start = None
 
 
 class MTMContract(Contract):
