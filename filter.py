@@ -197,8 +197,10 @@ class LocationFilter(Filter):
         """
         # TODO: Implement this method
         result = []
+        status = False
         coordinate_list = filter_string.split(', ')
         #lowerLong, lowerLat, upperLong, upperLat
+        #consider assigning variables to the above
         new_coordinate_list = []
         MAP_MIN = [-79.697878, 43.799568] #upper left coordinate
         MAP_MAX = [-79.196382, 43.576959]   #bottom right coordinate
@@ -206,19 +208,19 @@ class LocationFilter(Filter):
             for coordinate in coordinate_list:
                 new_coordinate_list.append(float(coordinate))
                 return new_coordinate_list
-        if (new_coordinate_list[0] >= MAP_MIN[0] and new_coordinate_list[0] \
-            <= MAP_MAX[0]) and (new_coordinate_list[3] <= MAP_MIN[0] \
-            and new_coordinate_list[3] >= MAP_MAX[0]) and (new_coordinate_list[1] \
-            >= MAP_MIN[1] and coordinate_list[1] <= MAP_MAX[1]) \
-            (new_coordinate_list[4] <= MAP_MIN[1] and new_coordinate_list[4] \
-             >= MAP_MAX[1]):
-                continue
-        else:
-            return data
-                    #check if outgoing calls are within coordinates
-                    #check in incoming calls are within coordinates
-                    #append Call to results if it is
-        return result
+            if ((MAP_MAX[0] >= new_coordinate_list[0] >= MAP_MIN[0]) and
+                (MAP_MAX[0]) <= new_coordinate_list[3] <= MAP_MIN[0]) and
+                (MAP_MAX[1] >= new_coordinate_list[1] >= MAP_MIN[1]) and
+                (MAP_MAX[1] <= new_coordinate_list[2] <= MAP_MIN[1])):
+                    status = True
+                    for call in data:
+                        #if call.src_loc[0]
+                        # check both incoming and outgoing calls
+        if status:
+
+            return result
+        return data
+
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
