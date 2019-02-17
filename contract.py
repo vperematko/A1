@@ -189,7 +189,7 @@ class PrepaidContract(Contract):
                 and an initial term deposit and monthly fee.
         """
         Contract.__init__(self, start)
-        self.balance = balance
+        self.balance = balance * (-1)
 
     def new_month(self, month: int, year: int, bill: Bill) -> None:
         """ Advance to a new month in the contract, corresponding to <month> and
