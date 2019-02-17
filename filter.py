@@ -209,17 +209,25 @@ class LocationFilter(Filter):
                 new_coordinate_list.append(float(coordinate))
                 return new_coordinate_list
             if ((MAP_MAX[0] >= new_coordinate_list[0] >= MAP_MIN[0]) and
-                (MAP_MAX[0]) <= new_coordinate_list[3] <= MAP_MIN[0]) and
+                (MAP_MAX[0] <= new_coordinate_list[3] <= MAP_MIN[0]) and
                 (MAP_MAX[1] >= new_coordinate_list[1] >= MAP_MIN[1]) and
                 (MAP_MAX[1] <= new_coordinate_list[2] <= MAP_MIN[1])):
                     status = True
+                    lower_long = new_coordinate_list[0]
+                    lower_lat = new_coordinate_list[1]
+                    upper_long = new_coordinate_list[2]
+                    upper_lat = new_coordinate_list[3]
                     for call in data:
-                        #if call.src_loc[0]
-                        # check both incoming and outgoing calls
-        if status:
-
-            return result
-        return data
+                        if not (lower_long <= call.src_loc[0] <= upper_long) and
+                            (lower_lat <= call.src_loc[1] <= upper_lat) or
+                            (lower_long <= call.dst_loc[0] <= upper_long) and
+                            (lower_lat <= call.dst_loc[1] <= upper_lat):
+                                status = False
+                        if status:
+                            result.append(call)
+        if not status:
+            return data
+        return result
 
 
     def __str__(self) -> str:
