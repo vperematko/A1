@@ -69,6 +69,7 @@ def create_customers(log: Dict[str, List[Dict]]) -> List[Customer]:
         customer_list.append(customer)
     return customer_list
 
+
 def find_customer_by_number(number: str, customer_list: List[Customer]) \
         -> Customer:
     """ Return the Customer with the phone number <number> in the list of
@@ -121,9 +122,8 @@ def process_event_history(log: Dict[str, List[Dict]],
     for event_data in log['events']:
         check_date = datetime.datetime.strptime(event_data['time'],
                                                 "%Y-%m-%d %H:%M:%S")
-        if (check_date.month > billing_month and
-                check_date.year >= billing_year) or \
-                check_date.year > billing_year:
+        if not (billing_month == check_date.month and
+                billing_year == check_date.year):
             billing_month = check_date.month
             billing_year = check_date.year
             new_month(customer_list, billing_month, billing_year)
