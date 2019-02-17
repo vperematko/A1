@@ -52,11 +52,9 @@ class Customer:
         <call>, is owned by this customer
         """
         # TODO: Implement this method
-        # Sarah's ver.
         for line in self._phone_lines:
             if call.src_number == line.get_number():
                 line.make_call(call)
-        # Vic's ver.
 
     def receive_call(self, call: Call) -> None:
         """ Record that a call was made to the destination phone number of
@@ -66,11 +64,9 @@ class Customer:
         number of <call>, is owned by this customer
         """
         # TODO: Implement this method
-        # Sarah's ver.
         for line in self._phone_lines:
             if call.dst_number == line.get_number():
                 line.receive_call(call)
-        # Vic's ver.
 
     def cancel_phone_line(self, number: str) -> Union[float, None]:
         """ Remove PhoneLine with number <number> from this customer and return

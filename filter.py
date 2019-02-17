@@ -70,12 +70,12 @@ class ResetFilter(Filter):
         Precondition:
         - <customers> contains the list of all customers from the input dataset
         """
-        filtered_calls = []
+        unfiltered_calls = []
         for c in customers:
             customer_history = c.get_history()
             # only take outgoing calls, we don't want to include calls twice
-            filtered_calls.extend(customer_history[0])
-        return filtered_calls
+            unfiltered_calls.extend(customer_history[0])
+        return unfiltered_calls
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
@@ -106,10 +106,11 @@ class CustomerFilter(Filter):
         result = []
         for customer in customers:
             if customer.get_id() == int(filter_string):
-                for call in data:
-                    for line in customer.get_phone_numbers():
-                        if (call.dst_number or call.src_number) == line:
-                            result.append(call)
+                cust_history = customer.get_history()
+                all_calls = []
+                for direction in cust_history:
+                    all_calls.extend(direction)
+                result.extend(all_calls)
         if result is []:
             return data
         return result
