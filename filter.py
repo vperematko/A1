@@ -103,9 +103,15 @@ class CustomerFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        # Sarah's ver.
-        return data
         # Vic's ver.
+
+        data = []
+        for Customer in customers:
+            if Customer._id == filter_string:
+                for Call in data:
+                    for line in Customer._phone_lines:
+                        if (Call.dst_number or Call.src_number) == line:
+                            data.append(Call)
         return data
 
     def __str__(self) -> str:
