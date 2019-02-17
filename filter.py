@@ -145,21 +145,22 @@ class DurationFilter(Filter):
         """
         # TODO: Implement this method
         # Vic's ver.
-        data = []
-        for Call in data:
+        result = []
+        for call in data:
             status = False
             if (filter_string[0] == 'L' or filter_string[0] == 'G') \
                     and (len(filter_string) == 4 ):
-                    #essentially checking for all possible things that could break
+                    # essentially checking for all psbl. things that could break
                         status = True
                         for char in filter_string[1:3]:
                             if not (char is int) and \
-                                    (Call.duration != int(filter_string[1:3])):
+                                    (call.duration != int(filter_string[1:3])):
                                 status = False
             if status:
-                data.append(Call)
-        return data
-
+                result.append(call)
+        if result is []:
+            return data
+        return result
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
