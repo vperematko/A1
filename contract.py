@@ -181,12 +181,12 @@ class PrepaidContract(Contract):
     bill: Optional[Bill]
     balance: float
 
-    def __init__(self, start: datetime.date, credit: float) -> None:
+    def __init__(self, start: datetime.date, balance: float) -> None:
         """Create a new TermContract with the <start> date, and <end> date,
                 and an initial term deposit and monthly fee.
         """
         Contract.__init__(self, start)
-        self.balance = credit
+        self.balance = balance
 
     def new_month(self, month: int, year: int, bill: Bill) -> None:
         """ Advance to a new month in the contract, corresponding to <month> and
@@ -197,14 +197,22 @@ class PrepaidContract(Contract):
         self.bill = bill
         self.bill.set_rates("PREPAID", PREPAID_MINS_COST)
         if self.balance > (-10):
-            self.balance += (-15)
+            self.balance += (-25)
+        self.bill.add_fixed_cost(self.balance)
+
+    def bill_call(self, call: Call) -> None:
+        """ Add the <call> to the bill."""
+        duration = ceil(call.duration / 60.0)
+        self.bill.add_billed_minutes(duration)
+        self.balance += (PREPAID_MINS_COST * duration)
 
     def cancel_contract(self) -> float:
         """ Return the amount owed in order to close the phone line associated
         with this contract."""
         self.start = None
-        return self.bill.get_cost()
-# Vic's ver.
+        if self.balance > 0.0:
+            return self.balance
+        return 0.0
 
 
 if __name__ == '__main__':

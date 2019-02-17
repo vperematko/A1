@@ -103,8 +103,6 @@ class CustomerFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        # Vic's ver.
-
         result = []
         for customer in customers:
             if customer.get_id() == int(filter_string):
@@ -144,7 +142,6 @@ class DurationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        # Vic's ver.
         result = []
         for call in data:
             status = False
@@ -198,8 +195,6 @@ class LocationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        # Sarah's ver.
-        return data
         # Vic's ver.
         return data
 
