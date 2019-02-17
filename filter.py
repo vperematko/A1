@@ -145,16 +145,16 @@ class DurationFilter(Filter):
         # Vic's ver.
         result = []
         for call in data:
-            status = False
+            status = False #keeps track of weather the input is valid or not
             if (filter_string[0] == 'L' or filter_string[0] == 'G') \
-                    and (len(filter_string) == 4 ):
+                    and (len(filter_string) == 4 ): #basic format check
                     # essentially checking for all psbl. things that could break
                         status = True
                         for char in filter_string[1:3]:
                             if not (char is int) and \
                                     (call.duration != int(filter_string[1:3])):
                                 status = False
-            if status:
+            if status: #checks if true
                 result.append(call)
         if result is []:
             return data
@@ -198,9 +198,7 @@ class LocationFilter(Filter):
         # TODO: Implement this method
         result = []
         coordinate_list = filter_string.split(', ')
-        if len(coordinate_list) == 4: # need more conditions
-                                    #how do i check each item for validity
-                                    #without another for loop
+        if len(coordinate_list) == 4: #need more conditions probably
             for call in data:
                 if call.src_loc[0] <=
 
