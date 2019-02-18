@@ -202,48 +202,28 @@ class LocationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        result = []
-        coordinate_list = filter_string.split(', ')
-        # lowerLong, lowerLat, upperLong, upperLat
-        # consider assigning variables to the above
-        new_coordinate_list = []
-        # MAP_MIN = [-79.697878, 43.799568] #upper left coordinate
-        # MAP_MAX = [-79.196382, 43.576959]   #bottom right coordinate
-        if len(coordinate_list) == 4:
-
+        try:
+            result = []
+            coordinate_list = filter_string.split(', ')
+            # lowerLong, lowerLat, upperLong, upperLat
+            # consider assigning variables to the above
+            lower_long = float(coordinate_list[0])
+            lower_lat = float(coordinate_list[1])
+            upper_long = float(coordinate_list[2])
+            upper_lat = float(coordinate_list[3])
             for call in data:
-                scr_truth = (tuple(float(coordinate_list[0]),
-                                   float(coordinate_list[1]))) \
-                            <= call.src_loc <= (tuple(float(coordinate_list[2]),
-                                                      float(coordinate_list[3])))
-
-                dst_truth = tuple(float(coordinate_list[0]),
-                             float(coordinate_list[1]) <= call.dst_loc
-                             <= tuple(float(coordinate_list[2]),
-                                      float(coordinate_list[3]))
-                    if
-                return new_coordinate_list
-            if ((MAP_MAX[0] >= new_coordinate_list[0] >= MAP_MIN[0]) and
-                (MAP_MAX[0] <= new_coordinate_list[3] <= MAP_MIN[0]) and
-                (MAP_MAX[1] >= new_coordinate_list[1] >= MAP_MIN[1]) and
-                (MAP_MAX[1] <= new_coordinate_list[2] <= MAP_MIN[1])):
-                    status = True
-                    lower_long = new_coordinate_list[0]
-                    lower_lat = new_coordinate_list[1]
-                    upper_long = new_coordinate_list[2]
-                    upper_lat = new_coordinate_list[3]
-                    for call in data:
-                        if not ((lower_long <= call.src_loc[0] <= upper_long) and
-                            (lower_lat <= call.src_loc[1] <= upper_lat) or
-                            (lower_long <= call.dst_loc[0] <= upper_long) and
-                                (lower_lat <= call.dst_loc[1] <= upper_lat)):
-                                status = False
-                        if status:
-                            result.append(call)
-        if not status:
+                if (lower_long <= (call.src_loc[0] or call.dst_loc[0]) <=
+                        upper_long) and (
+                        lower_lat <= (call.src_loc[1] or call.dst_loc[1]) <=
+                        upper_lat):
+                    result.append(call)
+            if result is []:
+                return data
+            return result
+        except ValueError:
             return data
-        return result
-
+        except IndexError:
+            return data
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
