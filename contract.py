@@ -100,11 +100,14 @@ class TermContract(Contract):
     === Attributes ===
     end:
         ending date for the contract
+    === Private Attributes ===
+    _carried_term:
+        whether the contract has been carried to the term or not.
     """
     start: datetime.date
     end: datetime.date
     bill: Optional[Bill]
-    _finished_term: bool
+    _carried_term: bool
 
     def __init__(self, start: datetime.date, end: datetime.date) -> None:
         """ Create a new TermContract with the <start> date, and <end> date,
@@ -138,13 +141,16 @@ class TermContract(Contract):
     def bill_call(self, call: Call) -> None:
         """ Add the <call> to the bill."""
         duration = ceil(call.duration / 60.0)
-        if (self.bill.free_min + duration) <= TERM_MINS:
-            self.bill.add_free_minutes(duration)
+        if self._carried_term is False:
+            if (self.bill.free_min + duration) <= TERM_MINS:
+                self.bill.add_free_minutes(duration)
+            else:
+                self.bill.add_free_minutes(
+                    TERM_MINS - self.bill.free_min)
+                self.bill.add_billed_minutes(
+                    self.bill.free_min + duration - TERM_MINS)
         else:
-            self.bill.add_free_minutes(
-                TERM_MINS - self.bill.free_min)
-            self.bill.add_billed_minutes(
-                self.bill.free_min + duration - TERM_MINS)
+            self.bill.add_billed_minutes(duration)
 
     def cancel_contract(self) -> float:
         """ Return the amount owed in order to close the phone line associated
@@ -205,8 +211,8 @@ class PrepaidContract(Contract):
         """
         self.bill = bill
         self.bill.set_rates("PREPAID", PREPAID_MINS_COST)
-        if self.balance > (-10):
-            self.balance += (-25)
+        if self.balance > (-10.0):
+            self.balance += (-25.0)
         self.bill.add_fixed_cost(self.balance)
 
     def bill_call(self, call: Call) -> None:

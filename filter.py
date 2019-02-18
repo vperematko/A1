@@ -148,23 +148,23 @@ class DurationFilter(Filter):
         specified in the handout.
         """
         # TODO: Implement this method
-        # Vic's ver.
-        result = []
-        for call in data:
-            status = False # keeps track of weather the input is valid or not
-            if (filter_string[0] == 'L' or filter_string[0] == 'G') \
-                    and (len(filter_string) == 4 ): # basic format check
-                    # essentially checking for all psbl. things that could break
-                        status = True
-                        for char in filter_string[1:3]:
-                            if not (char is int) and \
-                                    (call.duration != int(filter_string[1:3])):
-                                status = False
-            if status: #checks if true
-                result.append(call)
-        if result is []:
+        try:
+            result = []
+            for call in data:
+                duration_sec = int(filter_string[1:])
+                if filter_string[0] == 'L':
+                    if call.duration < duration_sec:
+                        result.append(call)
+                elif filter_string[0] == 'G':
+                    if call.duration > duration_sec:
+                        result.append(call)
+            if result is []:
+                return data
+            return result
+        except ValueError:
             return data
-        return result
+        except IndexError:
+            return data
 
     def __str__(self) -> str:
         """ Return a description of this filter to be displayed in the UI menu
@@ -203,16 +203,25 @@ class LocationFilter(Filter):
         """
         # TODO: Implement this method
         result = []
-        status = False
         coordinate_list = filter_string.split(', ')
-        #lowerLong, lowerLat, upperLong, upperLat
-        #consider assigning variables to the above
+        # lowerLong, lowerLat, upperLong, upperLat
+        # consider assigning variables to the above
         new_coordinate_list = []
-        MAP_MIN = [-79.697878, 43.799568] #upper left coordinate
-        MAP_MAX = [-79.196382, 43.576959]   #bottom right coordinate
-        if len(coordinate_list) == 4: #need more conditions probably
-            for coordinate in coordinate_list:
-                new_coordinate_list.append(float(coordinate))
+        # MAP_MIN = [-79.697878, 43.799568] #upper left coordinate
+        # MAP_MAX = [-79.196382, 43.576959]   #bottom right coordinate
+        if len(coordinate_list) == 4:
+
+            for call in data:
+                scr_truth = (tuple(float(coordinate_list[0]),
+                                   float(coordinate_list[1]))) \
+                            <= call.src_loc <= (tuple(float(coordinate_list[2]),
+                                                      float(coordinate_list[3])))
+
+                dst_truth = tuple(float(coordinate_list[0]),
+                             float(coordinate_list[1]) <= call.dst_loc
+                             <= tuple(float(coordinate_list[2]),
+                                      float(coordinate_list[3]))
+                    if
                 return new_coordinate_list
             if ((MAP_MAX[0] >= new_coordinate_list[0] >= MAP_MIN[0]) and
                 (MAP_MAX[0] <= new_coordinate_list[3] <= MAP_MIN[0]) and
