@@ -128,7 +128,7 @@ def process_event_history(log: Dict[str, List[Dict]],
             billing_year = check_date.year
             new_month(customer_list, billing_month, billing_year)
 
-        if event_data['type'] is 'call':
+        if event_data['type'] == 'call':
             new_call = Call(event_data['src_number'], event_data['dst_number'],
                             check_date, event_data['duration'],
                             tuple(event_data['src_loc']),
